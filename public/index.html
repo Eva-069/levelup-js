@@ -2,243 +2,249 @@
 <html lang="uk" data-theme="karelia">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Рівні складності — стежка крізь JavaScript</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap"
-    rel="stylesheet">
-  <!-- Тему застосовуємо ще до завантаження стилів, щоб не було «спалаху» іншого кольору -->
-  <script>
-    try { const t = localStorage.getItem("rs-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) { }
-  </script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рівні складності — стежка крізь JavaScript</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+    <!-- Тему застосовуємо ще до завантаження стилів, щоб не було «спалаху» іншого кольору -->
+    <script>
+        try { const t = localStorage.getItem("rs-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) { }
+    </script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- ===================== ЕКРАН ВХОДУ ===================== -->
-  <section id="authScreen" class="auth">
-    <div class="auth__hero">
-      <div class="forest" data-seed="7"></div>
-      <div class="auth__brand">
-        <h1 class="auth__title">Р · І · В · Н · І</h1>
-        <p class="auth__sub">складності · стежка крізь JavaScript</p>
-      </div>
+    <!-- ===================== ЕКРАН ВХОДУ ===================== -->
+    <section id="authScreen" class="auth">
+        <div class="auth__hero">
+            <div class="forest" data-seed="7"></div>
+            <div class="auth__brand">
+                <h1 class="auth__title">Р · І · В · Н · І</h1>
+                <p class="auth__sub">складності · стежка крізь JavaScript</p>
+            </div>
+        </div>
+
+        <div class="auth__card">
+            <div class="ornament" aria-hidden="true"></div>
+            <div class="auth__tabs">
+                <button class="auth__tab is-active" data-tab="login">Увійти</button>
+                <button class="auth__tab" data-tab="register">Реєстрація</button>
+            </div>
+
+            <form id="loginForm" class="auth__form">
+                <input type="text" id="loginUsername" placeholder="Логін" autocomplete="username" required>
+                <input type="password" id="loginPassword" placeholder="Пароль" autocomplete="current-password" required>
+                <button type="submit" class="btn btn--accent">Вирушити на стежку</button>
+            </form>
+
+            <form id="registerForm" class="auth__form" hidden>
+                <input type="text" id="registerUsername" placeholder="Логін (3–20 символів, без пробілів)"
+                    autocomplete="username" required>
+                <input type="password" id="registerPassword" placeholder="Пароль (мінімум 4 символи)"
+                    autocomplete="new-password" required>
+                <button type="submit" class="btn btn--accent">Створити мандрівника</button>
+            </form>
+
+            <p class="auth__error" id="authError"></p>
+        </div>
+    </section>
+
+    <!-- ===================== ЗАСТОСУНОК ===================== -->
+    <div id="appScreen" hidden>
+
+        <header class="top">
+            <div class="top__bar">
+                <button class="who" id="avatarBtn" title="Мій профіль">
+                    <span class="avatar" id="avatar">JS</span>
+                    <span class="who__text">
+                        <span class="who__name" id="hudUsername">—</span>
+                        <span class="who__meta"><span id="hudTitle"></span><span id="levelName">Стажер</span></span>
+                    </span>
+                </button>
+
+                <div class="xp">
+                    <div class="xp__top">
+                        <span id="xpNow">0 XP</span>
+                        <span class="xp__streak" id="hudStreak"></span>
+                        <span class="xp__target" id="xpTarget"></span>
+                    </div>
+                    <div class="bar">
+                        <div class="bar__fill" id="barFill"></div>
+                    </div>
+                </div>
+
+                <div class="top__right">
+                    <span class="berries" id="hudBerries" title="Ягоди — валюта крамниці">🫐 0</span>
+                    <button class="icon-btn" id="themeToggle" title="Світла / темна тема"
+                        aria-label="Перемкнути тему">☀</button>
+                    <button class="btn btn--ghost" id="logoutBtn">Вийти</button>
+                </div>
+            </div>
+
+            <nav class="tabs" id="tabs" aria-label="Розділи">
+                <button class="tabs__item is-active" data-view="trail">Стежка</button>
+                <button class="tabs__item" data-view="badges">Досягнення</button>
+                <button class="tabs__item" data-view="shop">Крамниця</button>
+                <button class="tabs__item" data-view="rating">Рейтинг</button>
+                <button class="tabs__item" data-view="profile">Профіль</button>
+            </nav>
+        </header>
+
+        <main class="layout">
+
+            <!-- ---------- СТЕЖКА ---------- -->
+            <section id="view-trail" class="view">
+                <div class="hero">
+                    <div class="forest" data-seed="21"></div>
+                    <div class="hero__content">
+                        <p class="eyebrow" id="heroEyebrow">Глава 1</p>
+                        <h2 class="hero__title" id="heroTitle">УЗЛІССЯ</h2>
+                        <p class="hero__desc" id="heroDesc"></p>
+                    </div>
+                </div>
+
+                <div class="stats" id="statTiles"></div>
+
+                <section class="panel panel--daily" id="dailyPanel" hidden>
+                    <div class="daily">
+                        <div>
+                            <p class="eyebrow">Щоденний виклик</p>
+                            <p class="daily__title" id="dailyTitle">—</p>
+                            <p class="daily__reward" id="dailyReward"></p>
+                        </div>
+                        <button class="btn btn--accent" id="dailyBtn">Почати виклик</button>
+                    </div>
+                </section>
+
+                <div class="chapters" id="chapterList"></div>
+
+                <section class="panel">
+                    <div class="panel__head">
+                        <p class="eyebrow">Власні стежки</p>
+                        <h3 class="panel__title">Свої задачі</h3>
+                        <p class="panel__hint">До 10 задач, до 20 XP кожна. Виконання позначаєш сама.</p>
+                    </div>
+                    <ul class="custom-list" id="customList"></ul>
+                    <form class="add-quest" id="addQuestForm">
+                        <input type="text" id="newQuestTitle" placeholder="Наприклад «Повторити методи масивів»"
+                            maxlength="60" required>
+                        <input type="number" id="newQuestXp" placeholder="XP" min="1" max="20" value="10" required>
+                        <button type="submit" class="btn btn--accent">Додати</button>
+                    </form>
+                </section>
+            </section>
+
+            <!-- ---------- ДОСЯГНЕННЯ ---------- -->
+            <section id="view-badges" class="view" hidden>
+                <div class="section-head">
+                    <p class="eyebrow">Колекція</p>
+                    <h2 class="section-title">Досягнення</h2>
+                    <p class="section-sub" id="badgeCount"></p>
+                </div>
+                <ul class="badges" id="badgeList"></ul>
+            </section>
+
+            <!-- ---------- КРАМНИЦЯ ---------- -->
+            <section id="view-shop" class="view" hidden>
+                <div class="section-head">
+                    <p class="eyebrow">Лише косметика · без переваг у грі</p>
+                    <h2 class="section-title">Крамниця</h2>
+                    <p class="section-sub" id="shopBalance">🫐 0 ягід</p>
+                </div>
+                <div id="shopList"></div>
+            </section>
+
+            <!-- ---------- РЕЙТИНГ ---------- -->
+            <section id="view-rating" class="view" hidden>
+                <div class="section-head">
+                    <p class="eyebrow">Мандрівники</p>
+                    <h2 class="section-title">Рейтинг</h2>
+                </div>
+                <div class="rating">
+                    <section class="panel">
+                        <div class="segmented" id="ratingTabs">
+                            <button class="segmented__item is-active" data-period="week">За тиждень</button>
+                            <button class="segmented__item" data-period="all">За весь час</button>
+                        </div>
+                        <ol class="board" id="leaderboard"></ol>
+                    </section>
+                    <section class="panel">
+                        <p class="eyebrow">Шлях розробника</p>
+                        <ol class="ladder" id="ladder"></ol>
+                    </section>
+                </div>
+            </section>
+
+            <!-- ---------- ПРОФІЛЬ ---------- -->
+            <section id="view-profile" class="view" hidden>
+                <section class="panel profile">
+                    <div class="ornament" aria-hidden="true"></div>
+                    <div class="profile__head">
+                        <span class="avatar avatar--big" id="profileAvatar">JS</span>
+                        <div>
+                            <h2 class="profile__name" id="profileUsername">—</h2>
+                            <p class="panel__hint" id="profileSince">На стежці з —</p>
+                        </div>
+                    </div>
+                    <div class="profile__stats" id="profileStats"></div>
+                </section>
+
+                <section class="panel">
+                    <p class="eyebrow">Активність за 12 тижнів</p>
+                    <div class="calendar" id="calendar"></div>
+                    <div class="calendar__legend">
+                        <span>менше</span><i class="c0"></i><i class="c1"></i><i class="c2"></i><i
+                            class="c3"></i><span>більше</span>
+                    </div>
+                </section>
+
+                <div class="profile__grid">
+                    <section class="panel">
+                        <p class="eyebrow">Глави</p>
+                        <ul class="progress-list" id="chapterProgress"></ul>
+                    </section>
+                    <section class="panel">
+                        <p class="eyebrow">Виконані квести</p>
+                        <ul class="done-list" id="profileList"></ul>
+                    </section>
+                </div>
+            </section>
+
+            <!-- ---------- КВЕСТ ---------- -->
+            <section id="view-quest" class="view" hidden>
+                <button class="back-btn" id="questBackBtn">← До стежки</button>
+                <div class="quest" id="questCard"></div>
+            </section>
+
+        </main>
+
+        <footer class="foot">
+            Рівні складності · гейміфікація курсу JavaScript · самостійне завдання «Розробка додатку для гейміфікації
+            процесу»
+        </footer>
     </div>
 
-    <div class="auth__card">
-      <div class="ornament" aria-hidden="true"></div>
-      <div class="auth__tabs">
-        <button class="auth__tab is-active" data-tab="login">Увійти</button>
-        <button class="auth__tab" data-tab="register">Реєстрація</button>
-      </div>
-
-      <form id="loginForm" class="auth__form">
-        <input type="text" id="loginUsername" placeholder="Логін" autocomplete="username" required>
-        <input type="password" id="loginPassword" placeholder="Пароль" autocomplete="current-password" required>
-        <button type="submit" class="btn btn--accent">Вирушити на стежку</button>
-      </form>
-
-      <form id="registerForm" class="auth__form" hidden>
-        <input type="text" id="registerUsername" placeholder="Логін (3–20 символів, без пробілів)"
-          autocomplete="username" required>
-        <input type="password" id="registerPassword" placeholder="Пароль (мінімум 4 символи)"
-          autocomplete="new-password" required>
-        <button type="submit" class="btn btn--accent">Створити мандрівника</button>
-      </form>
-
-      <p class="auth__error" id="authError"></p>
+    <!-- Вікно-святкування: новий рівень, здолано хранителя -->
+    <div id="overlay" class="overlay" hidden>
+        <div class="overlay__card">
+            <div class="ornament" aria-hidden="true"></div>
+            <div class="overlay__icon" id="overlayIcon">🏆</div>
+            <p class="eyebrow" id="overlayEyebrow">Новий рівень</p>
+            <h2 class="overlay__title" id="overlayTitle">Junior JS</h2>
+            <p class="overlay__text" id="overlayText"></p>
+            <button class="btn btn--accent" id="overlayBtn">Продовжити</button>
+        </div>
     </div>
-  </section>
 
-  <!-- ===================== ЗАСТОСУНОК ===================== -->
-  <div id="appScreen" hidden>
+    <div id="toastContainer" class="toasts" aria-live="polite"></div>
+    <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
 
-    <header class="top">
-      <div class="top__bar">
-        <button class="who" id="avatarBtn" title="Мій профіль">
-          <span class="avatar" id="avatar">JS</span>
-          <span class="who__text">
-            <span class="who__name" id="hudUsername">—</span>
-            <span class="who__meta"><span id="hudTitle"></span><span id="levelName">Стажер</span></span>
-          </span>
-        </button>
-
-        <div class="xp">
-          <div class="xp__top">
-            <span id="xpNow">0 XP</span>
-            <span class="xp__streak" id="hudStreak"></span>
-            <span class="xp__target" id="xpTarget"></span>
-          </div>
-          <div class="bar"><div class="bar__fill" id="barFill"></div></div>
-        </div>
-
-        <div class="top__right">
-          <span class="berries" id="hudBerries" title="Ягоди — валюта крамниці">🫐 0</span>
-          <button class="icon-btn" id="themeToggle" title="Світла / темна тема" aria-label="Перемкнути тему">☀</button>
-          <button class="btn btn--ghost" id="logoutBtn">Вийти</button>
-        </div>
-      </div>
-
-      <nav class="tabs" id="tabs" aria-label="Розділи">
-        <button class="tabs__item is-active" data-view="trail">Стежка</button>
-        <button class="tabs__item" data-view="badges">Досягнення</button>
-        <button class="tabs__item" data-view="shop">Крамниця</button>
-        <button class="tabs__item" data-view="rating">Рейтинг</button>
-        <button class="tabs__item" data-view="profile">Профіль</button>
-      </nav>
-    </header>
-
-    <main class="layout">
-
-      <!-- ---------- СТЕЖКА ---------- -->
-      <section id="view-trail" class="view">
-        <div class="hero">
-          <div class="forest" data-seed="21"></div>
-          <div class="hero__content">
-            <p class="eyebrow" id="heroEyebrow">Глава 1</p>
-            <h2 class="hero__title" id="heroTitle">УЗЛІССЯ</h2>
-            <p class="hero__desc" id="heroDesc"></p>
-          </div>
-        </div>
-
-        <div class="stats" id="statTiles"></div>
-
-        <section class="panel panel--daily" id="dailyPanel" hidden>
-          <div class="daily">
-            <div>
-              <p class="eyebrow">Щоденний виклик</p>
-              <p class="daily__title" id="dailyTitle">—</p>
-              <p class="daily__reward" id="dailyReward"></p>
-            </div>
-            <button class="btn btn--accent" id="dailyBtn">Почати виклик</button>
-          </div>
-        </section>
-
-        <div class="chapters" id="chapterList"></div>
-
-        <section class="panel">
-          <div class="panel__head">
-            <p class="eyebrow">Власні стежки</p>
-            <h3 class="panel__title">Свої задачі</h3>
-            <p class="panel__hint">До 10 задач, до 20 XP кожна. Виконання позначаєш сама.</p>
-          </div>
-          <ul class="custom-list" id="customList"></ul>
-          <form class="add-quest" id="addQuestForm">
-            <input type="text" id="newQuestTitle" placeholder="Наприклад «Повторити методи масивів»" maxlength="60" required>
-            <input type="number" id="newQuestXp" placeholder="XP" min="1" max="20" value="10" required>
-            <button type="submit" class="btn btn--accent">Додати</button>
-          </form>
-        </section>
-      </section>
-
-      <!-- ---------- ДОСЯГНЕННЯ ---------- -->
-      <section id="view-badges" class="view" hidden>
-        <div class="section-head">
-          <p class="eyebrow">Колекція</p>
-          <h2 class="section-title">Досягнення</h2>
-          <p class="section-sub" id="badgeCount"></p>
-        </div>
-        <ul class="badges" id="badgeList"></ul>
-      </section>
-
-      <!-- ---------- КРАМНИЦЯ ---------- -->
-      <section id="view-shop" class="view" hidden>
-        <div class="section-head">
-          <p class="eyebrow">Лише косметика · без переваг у грі</p>
-          <h2 class="section-title">Крамниця</h2>
-          <p class="section-sub" id="shopBalance">🫐 0 ягід</p>
-        </div>
-        <div id="shopList"></div>
-      </section>
-
-      <!-- ---------- РЕЙТИНГ ---------- -->
-      <section id="view-rating" class="view" hidden>
-        <div class="section-head">
-          <p class="eyebrow">Мандрівники</p>
-          <h2 class="section-title">Рейтинг</h2>
-        </div>
-        <div class="rating">
-          <section class="panel">
-            <div class="segmented" id="ratingTabs">
-              <button class="segmented__item is-active" data-period="week">За тиждень</button>
-              <button class="segmented__item" data-period="all">За весь час</button>
-            </div>
-            <ol class="board" id="leaderboard"></ol>
-          </section>
-          <section class="panel">
-            <p class="eyebrow">Шлях розробника</p>
-            <ol class="ladder" id="ladder"></ol>
-          </section>
-        </div>
-      </section>
-
-      <!-- ---------- ПРОФІЛЬ ---------- -->
-      <section id="view-profile" class="view" hidden>
-        <section class="panel profile">
-          <div class="ornament" aria-hidden="true"></div>
-          <div class="profile__head">
-            <span class="avatar avatar--big" id="profileAvatar">JS</span>
-            <div>
-              <h2 class="profile__name" id="profileUsername">—</h2>
-              <p class="panel__hint" id="profileSince">На стежці з —</p>
-            </div>
-          </div>
-          <div class="profile__stats" id="profileStats"></div>
-        </section>
-
-        <section class="panel">
-          <p class="eyebrow">Активність за 12 тижнів</p>
-          <div class="calendar" id="calendar"></div>
-          <div class="calendar__legend">
-            <span>менше</span><i class="c0"></i><i class="c1"></i><i class="c2"></i><i class="c3"></i><span>більше</span>
-          </div>
-        </section>
-
-        <div class="profile__grid">
-          <section class="panel">
-            <p class="eyebrow">Глави</p>
-            <ul class="progress-list" id="chapterProgress"></ul>
-          </section>
-          <section class="panel">
-            <p class="eyebrow">Виконані квести</p>
-            <ul class="done-list" id="profileList"></ul>
-          </section>
-        </div>
-      </section>
-
-      <!-- ---------- КВЕСТ ---------- -->
-      <section id="view-quest" class="view" hidden>
-        <button class="back-btn" id="questBackBtn">← До стежки</button>
-        <div class="quest" id="questCard"></div>
-      </section>
-
-    </main>
-
-    <footer class="foot">
-      Рівні складності · гейміфікація курсу JavaScript · самостійне завдання «Розробка додатку для гейміфікації процесу»
-    </footer>
-  </div>
-
-  <!-- Вікно-святкування: новий рівень, здолано хранителя -->
-  <div id="overlay" class="overlay" hidden>
-    <div class="overlay__card">
-      <div class="ornament" aria-hidden="true"></div>
-      <div class="overlay__icon" id="overlayIcon">🏆</div>
-      <p class="eyebrow" id="overlayEyebrow">Новий рівень</p>
-      <h2 class="overlay__title" id="overlayTitle">Junior JS</h2>
-      <p class="overlay__text" id="overlayText"></p>
-      <button class="btn btn--accent" id="overlayBtn">Продовжити</button>
-    </div>
-  </div>
-
-  <div id="toastContainer" class="toasts" aria-live="polite"></div>
-  <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
-
-  <script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>
